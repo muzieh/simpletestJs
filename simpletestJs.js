@@ -5,61 +5,56 @@ window.SimpleTestJsModule = (function() {
 
 	var createLogEntry = function(message, className) {
 		var entry = document.createElement("li");
-		entry.className += className;
+		entry.className = className;
 		entry.appendChild(document.createTextNode(message));
 		return entry;
 	}
 
-	var	logError = function(message) {
-		var entry = createLogEntry(message, "error");
-		consoleElement.appendChild(entry);
-	};
-
-	var logInfo = function(message) {
-		var entry = createLogEntry(message, "info");
+	var logEntry = function(message, className) {
+		var entry = createLogEntry(message, className);
 		consoleElement.appendChild(entry);
 	};
 
 	return {
 
 		init: function(consoleId) {
+			if(!consoleId)
+				consoleId = "simpleTestJs";
 			consoleElement = document.getElementById(consoleId);
 			if(!consoleElement) {
 				return;
 			}
-
 			var list = document.createElement("ul");
 			consoleElement.appendChild(list);
 			consoleElement = list;
-
-
 		},
 
 		status: function() {
 			if(consoleElement) {
 				console.log(consoleElement);
-				logInf('console ok');
+				logEntry('console ok');
 			} else {
 				console.log('something is wrong. consoleElement has not been set');
 			}
 		},
 
 		assert: function(condition, message) {
-			if(condition) {
-				logInfo(message);
-			} else {
-				logError(message);
-			}
+			var className = condition ? "pass" : "fail";
+			logEntry(message, className);
 		},
 
 		report: function(message) {
-			logInfo(message);
+			logEntry(message);
 		}
 
 	};
 
-
 })();
+
 
 window.assert =  SimpleTestJsModule.assert;
 window.report =  SimpleTestJsModule.report;
+
+window.addEventListener('load', function() {
+	SimpleTestJsModule.init();	
+});

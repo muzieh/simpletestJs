@@ -2,24 +2,42 @@
 <html>
 <header>
 	<style type="text/css">
-		.error {color:red;}
-		.info {color:green;}
-		#console ul {list-style: none;}
+		.fail {color:red;}
+		.pass {color:green;}
+		#simpleTestJs ul {list-style: none;}
 	</style>
 	<script src="simpletestJs.js" type="text/javascript"></script>
 	<script>
 		window.addEventListener('load', function() {
 
-			SimpleTestJsModule.init("console");
 			report("console loaded");
 			assert(true, 'simple test');
 			assert(false, 'failed test');
+			var f = function() {return;};
+			var b = f;
+			assert(f === b, 'are the same');
+
+			var text = "Domo arigato!";
+			report("Before defining functions");
+			function useless(ninjaCallback) {
+				report("In useless function");
+				return ninjaCallback();
+			}
+			function getText() {
+				report("In getText function");
+				return text;
+			}
+			report("Before making all the calls");
+			assert(useless(getText) === text,
+				"The useless function works! " + text);
+			report("After the calls have been made");
+
 
 		});
 	</script>
 </header>
 <body>
-<div id="console"></div>	
+<div id="simpleTestJs"></div>	
 
 </body>
 </html>
