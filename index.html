@@ -33,6 +33,31 @@
 			report("After the calls have been made");
 
 
+			var store = {
+				nextId: 1,
+				cache: {},
+				add: function(fn) {
+					if(!fn.id) {
+						fn.id = this.nextId++;
+						this.cache[fn.id] = fn;
+						return true;
+					}
+				}
+			};
+
+			function ninja() {}
+			function ninja1() {}
+			assert(store.add(ninja), "function added");
+			assert(!store.add(ninja), "can't be added for the second time");
+			assert(undefined == undefined, 'is undefined');
+			assert(undefined === undefined, 'is undefined');
+			assert(!(null === undefined), 'null is not undefined');
+			assert(null == undefined, 'null is  equal undefined');
+			assert(null === null, 'null is null');
+			assert(null == null, 'null equals null');
+
+
+
 		});
 	</script>
 </header>
