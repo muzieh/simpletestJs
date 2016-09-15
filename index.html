@@ -10,6 +10,7 @@
 	<script>
 		window.addEventListener('load', function() {
 
+
 			report("console loaded");
 			assert(true, 'simple test');
 			assert(false, 'failed test');
@@ -45,6 +46,13 @@
 				}
 			};
 
+			function mu(n1, ...remainingNumbers) {
+				var max = remainingNumbers.sort((a,b) => b - a)[0];
+				return n1 * max;
+			}
+
+			equal(8, mu(2,2,3,4), 'remaining');
+
 			function ninja() {}
 			function ninja1() {}
 			assert(store.add(ninja), "function added");
@@ -55,6 +63,7 @@
 			assert(null == undefined, 'null is  equal undefined');
 			assert(null === null, 'null is null');
 			assert(null == null, 'null equals null');
+			assert((1+function(){return 1;}())===2, "function with +");
 
 
 

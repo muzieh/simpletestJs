@@ -1,6 +1,6 @@
 //simpletestJs.js
 
-window.SimpleTestJsModule = (function() {
+window.SimpleTestJsModule = (function(context) {
 	var consoleElement;
 
 	var createLogEntry = function(message, className) {
@@ -15,7 +15,7 @@ window.SimpleTestJsModule = (function() {
 		consoleElement.appendChild(entry);
 	};
 
-	return {
+	var API = {
 
 		init: function(consoleId) {
 			if(!consoleId)
@@ -43,17 +43,29 @@ window.SimpleTestJsModule = (function() {
 			logEntry(message, className);
 		},
 
+		equal: function(expected, actual, message) {
+			if(expected == actual) {
+				logEntry(message, "pass");
+			} else {
+				logEntry(message + " ! expected " + expected + " actual " + actual, "fail");
+			}
+		},
+
 		report: function(message) {
 			logEntry(message);
 		}
 
 	};
 
-})();
+	context.report = API.report;
+	context.assert = API.assert;
+	context.equal = API.equal;
+	return API;
+
+})(window);
 
 
-window.assert =  SimpleTestJsModule.assert;
-window.report =  SimpleTestJsModule.report;
+
 
 window.addEventListener('load', function() {
 	SimpleTestJsModule.init();	
