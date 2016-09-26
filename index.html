@@ -64,6 +64,9 @@
 			assert(null === null, 'null is null');
 			assert(null == null, 'null equals null');
 			assert((1+function(){return 1;}())===2, "function with +");
+			assert((1+(function(){return 1;}()))===2, "function with + and redundand brackets");
+			equal((function(a, b="b"){return "set " + a + " default " + b})("a"), "set a default b", "default param");
+
 
 
 
